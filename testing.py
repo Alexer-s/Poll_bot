@@ -18,6 +18,17 @@ answers: dict = {}
 wrong_answers: dict = {}
 next_question: dict = {}
 
+first_button = ReplyKeyboardMarkup(
+    [['Начать тестирование'],],
+    resize_keyboard=True
+)
+
+bot.send_message(
+    admin_id,
+    text='Сервер запущен',
+    reply_markup=first_button
+)
+
 
 def start(update, context):
     if poll_data.get(update.effective_user.id):
@@ -89,15 +100,21 @@ def result_message(user_id):
         'Тестирование закончено. Есть ошибки! '
         'Следует повторить темы с ошибочными ответами.'
     )
+    button = ReplyKeyboardMarkup(
+        [['Начать тестирование'],],
+        resize_keyboard=True
+    )
     if False not in answers[user_id]:
         bot.send_message(
             user_id,
-            text=winning_message
+            text=winning_message,
+            reply_markup=button
         )
     else:
         bot.send_message(
             user_id,
-            text=error_message
+            text=error_message,
+            reply_markup=button
         )
 
 
@@ -208,10 +225,7 @@ def income(update, context):
             )
         )
     ):
-        if poll_data.get(update.effective_user.id):
-            button = 'Продолжить тестирование'
-        else:
-            button = 'Начать тестирование'
+        button = 'Продолжить тестирование'
         try:
             question_data = next(poll_generators[0])
         except StopIteration:
