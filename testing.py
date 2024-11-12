@@ -167,6 +167,28 @@ def receive_poll(update, context):
     )
 
 
+def clear_poll(update, context):
+    if update.effective_user.id == int(admin_id):
+        poll_data.clear()
+        answers.clear()
+        wrong_answers.clear()
+        next_question.clear()
+        button = ReplyKeyboardMarkup(
+            [['Начать тестирование'],],
+            resize_keyboard=True
+        )
+        bot.send_message(
+            update.effective_user.id,
+            text='Тест сброшен!',
+            reply_markup=button
+        )
+    else:
+        bot.send_message(
+            update.effective_user.id,
+            text='Нет прав!'
+        )
+
+
 def income(update, context):
     if poll_data.get(update.effective_user.id):
         if poll_data[update.effective_user.id] == 'stop':
@@ -255,6 +277,10 @@ updater.dispatcher.add_handler(MessageHandler(
 updater.dispatcher.add_handler(MessageHandler(
     Filters.text & Filters.regex('Продолжить тестирование'),
     income)
+)
+updater.dispatcher.add_handler(MessageHandler(
+    Filters.text & Filters.regex('Сбросить тест'),
+    clear_poll)
 )
 updater.dispatcher.add_handler(MessageHandler(Filters.text, start))
 updater.dispatcher.add_handler(MessageHandler(Filters.document, receive_poll))
