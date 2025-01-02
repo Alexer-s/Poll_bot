@@ -1,2 +1,10 @@
-python-telegram-bot==13.7
+APScheduler==3.6.3
+cachetools==4.2.2
+certifi==2024.8.30
 python-dotenv==1.0.0
+python-telegram-bot==13.7
+pytz==2024.2
+six==1.16.0
+tornado==6.4.1
+tzdata==2024.2
+tzlocal==5.2
