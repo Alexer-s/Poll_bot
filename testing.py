@@ -56,10 +56,11 @@ def generate_polls():
     with open('test.txt', 'r', encoding='utf-8') as file:
         test = file.read()
         for question in test.split('\n'):
+            item = question.split('; ')
             yield {
-                'question': question.split('; ')[0],
-                'options': question.split('; ')[1:-1],
-                'answer': int(question.split('; ')[-1])
+                'question': item[0],
+                'options': item[1:-1],
+                'answer': int(item[-1])
             }
 
 
